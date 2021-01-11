@@ -2,7 +2,7 @@ import * as cdk from 'monocdk';
 import * as s3 from 'monocdk/aws-s3';
 import * as iam from 'monocdk/aws-iam';
 
-export class StreamDataSyncStack extends cdk.Stack {
+export class DHDStack extends cdk.Stack {
     constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 

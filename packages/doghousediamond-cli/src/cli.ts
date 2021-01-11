@@ -5,6 +5,7 @@ import clear from 'clear';
 import figlet from 'figlet';
 
 import program from 'commander';
+import * as commander from 'commander';
 
 import { sync } from './sync';
 
@@ -16,13 +17,17 @@ console.log(
 );
 
 program
-    .version('0.0.1')
-    .description("DogHouseDiamond cli")
-    .command("sync")
-        .description("sync data in current directory with S3")
-        .action(sync)
-    .parse(process.argv);
+    .version('0.0.1', "-v, --version")
+    .description("DogHouseDiamond cli");
 
-if (!process.argv.slice(2).length) {
-    program.outputHelp();
-}
+const subCommand = new commander.Command('sync');
+    subCommand
+    .description("sync data in current directory with S3")
+        .storeOptionsAsProperties(true)
+        .option("-u, --upload", "Enables uploading only. No options and no -d provided will cause only upload to occur")
+        .option("-d, --download", "Enables downloading only. No options and no -u provided will cause only download to occur")
+        .action(sync)
+        .addHelpCommand();
+program.addCommand(subCommand);
+
+program.parse(process.argv);

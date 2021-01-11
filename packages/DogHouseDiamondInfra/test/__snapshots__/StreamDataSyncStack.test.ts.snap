@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Stack - DHDStreamDataSyncStack 1`] = `
+exports[`Stack - DogHouseDiamondStack 1`] = `
 Object {
   "Outputs": Object {
     "BucketArn": Object {
@@ -105,6 +105,6 @@ Object {
 
 exports[`Stacks 1`] = `
 Array [
-  "DHDStreamDataSyncStack",
+  "DogHouseDiamondStack",
 ]
 `;

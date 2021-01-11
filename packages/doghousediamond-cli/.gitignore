@@ -1,3 +1,5 @@
+
+*.js
 # Ignore generated directories
 dist/
 exec/
