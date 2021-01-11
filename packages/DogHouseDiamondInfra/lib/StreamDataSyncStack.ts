@@ -14,5 +14,9 @@ export class StreamDataSyncStack extends cdk.Stack {
 
         bucket.grantPut(user);
         bucket.grantRead(user);
+
+        new cdk.CfnOutput(this, "BucketArn", {
+            value: bucket.bucketArn,
+        });
     }
 }

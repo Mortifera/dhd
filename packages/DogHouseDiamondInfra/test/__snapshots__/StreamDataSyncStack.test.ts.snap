@@ -2,6 +2,16 @@
 
 exports[`Stack - DHDStreamDataSyncStack 1`] = `
 Object {
+  "Outputs": Object {
+    "BucketArn": Object {
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "DataSyncCE22D76D",
+          "Arn",
+        ],
+      },
+    },
+  },
   "Resources": Object {
     "DataSyncCE22D76D": Object {
       "DeletionPolicy": "Retain",
