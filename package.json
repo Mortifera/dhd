@@ -1,0 +1,14 @@
+{
+  "name": "root",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  },
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run build",
+    "test": "lerna run test",
+    "deploy": "cd packages/DogHouseDiamondInfra && npm run cdk -- deploy",
+    "deploy:fresh": "npm run build && npm run test && npm run deploy"
+  }
+}

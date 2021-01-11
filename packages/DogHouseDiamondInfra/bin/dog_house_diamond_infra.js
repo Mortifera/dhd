@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.app = void 0;
+require("source-map-support/register");
+const cdk = require("monocdk");
+const StreamDataSyncStack_1 = require("../lib/StreamDataSyncStack");
+exports.app = new cdk.App();
+new StreamDataSyncStack_1.StreamDataSyncStack(exports.app, 'DHDStreamDataSyncStack');
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZG9nX2hvdXNlX2RpYW1vbmRfaW5mcmEuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJkb2dfaG91c2VfZGlhbW9uZF9pbmZyYS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O0FBQ0EsdUNBQXFDO0FBQ3JDLCtCQUErQjtBQUMvQixvRUFBaUU7QUFFcEQsUUFBQSxHQUFHLEdBQUcsSUFBSSxHQUFHLENBQUMsR0FBRyxFQUFFLENBQUM7QUFDakMsSUFBSSx5Q0FBbUIsQ0FBQyxXQUFHLEVBQUUsd0JBQXdCLENBQUMsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIiMhL3Vzci9iaW4vZW52IG5vZGVcbmltcG9ydCAnc291cmNlLW1hcC1zdXBwb3J0L3JlZ2lzdGVyJztcbmltcG9ydCAqIGFzIGNkayBmcm9tICdtb25vY2RrJztcbmltcG9ydCB7IFN0cmVhbURhdGFTeW5jU3RhY2sgfSBmcm9tICcuLi9saWIvU3RyZWFtRGF0YVN5bmNTdGFjayc7XG5cbmV4cG9ydCBjb25zdCBhcHAgPSBuZXcgY2RrLkFwcCgpO1xubmV3IFN0cmVhbURhdGFTeW5jU3RhY2soYXBwLCAnREhEU3RyZWFtRGF0YVN5bmNTdGFjaycpO1xuIl19

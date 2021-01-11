@@ -1,0 +1,19 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.StreamDataSyncStack = void 0;
+const cdk = require("monocdk");
+const s3 = require("monocdk/aws-s3");
+const iam = require("monocdk/aws-iam");
+class StreamDataSyncStack extends cdk.Stack {
+    constructor(scope, id, props) {
+        super(scope, id, props);
+        const bucket = new s3.Bucket(this, "DataSync", {
+            encryption: s3.BucketEncryption.S3_MANAGED
+        });
+        const role = new iam.User(this, "DataSyncUser");
+        bucket.grantPut(role);
+        bucket.grantRead(role);
+    }
+}
+exports.StreamDataSyncStack = StreamDataSyncStack;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiU3RyZWFtRGF0YVN5bmNTdGFjay5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlN0cmVhbURhdGFTeW5jU3RhY2sudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O0FBQUEsK0JBQStCO0FBQy9CLHFDQUFxQztBQUNyQyx1Q0FBdUM7QUFFdkMsTUFBYSxtQkFBb0IsU0FBUSxHQUFHLENBQUMsS0FBSztJQUM5QyxZQUFZLEtBQW9CLEVBQUUsRUFBVSxFQUFFLEtBQXNCO1FBQ2hFLEtBQUssQ0FBQyxLQUFLLEVBQUUsRUFBRSxFQUFFLEtBQUssQ0FBQyxDQUFDO1FBRXhCLE1BQU0sTUFBTSxHQUFHLElBQUksRUFBRSxDQUFDLE1BQU0sQ0FBQyxJQUFJLEVBQUUsVUFBVSxFQUFFO1lBQzNDLFVBQVUsRUFBRSxFQUFFLENBQUMsZ0JBQWdCLENBQUMsVUFBVTtTQUM3QyxDQUFDLENBQUM7UUFFSCxNQUFNLElBQUksR0FBRyxJQUFJLEdBQUcsQ0FBQyxJQUFJLENBQUMsSUFBSSxFQUFFLGNBQWMsQ0FBQyxDQUFDO1FBRWhELE1BQU0sQ0FBQyxRQUFRLENBQUMsSUFBSSxDQUFDLENBQUM7UUFDdEIsTUFBTSxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsQ0FBQztJQUMzQixDQUFDO0NBQ0o7QUFiRCxrREFhQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCAqIGFzIGNkayBmcm9tICdtb25vY2RrJztcbmltcG9ydCAqIGFzIHMzIGZyb20gJ21vbm9jZGsvYXdzLXMzJztcbmltcG9ydCAqIGFzIGlhbSBmcm9tICdtb25vY2RrL2F3cy1pYW0nO1xuXG5leHBvcnQgY2xhc3MgU3RyZWFtRGF0YVN5bmNTdGFjayBleHRlbmRzIGNkay5TdGFjayB7XG4gICAgY29uc3RydWN0b3Ioc2NvcGU6IGNkay5Db25zdHJ1Y3QsIGlkOiBzdHJpbmcsIHByb3BzPzogY2RrLlN0YWNrUHJvcHMpIHtcbiAgICAgICAgc3VwZXIoc2NvcGUsIGlkLCBwcm9wcyk7XG5cbiAgICAgICAgY29uc3QgYnVja2V0ID0gbmV3IHMzLkJ1Y2tldCh0aGlzLCBcIkRhdGFTeW5jXCIsIHtcbiAgICAgICAgICAgIGVuY3J5cHRpb246IHMzLkJ1Y2tldEVuY3J5cHRpb24uUzNfTUFOQUdFRFxuICAgICAgICB9KTtcblxuICAgICAgICBjb25zdCByb2xlID0gbmV3IGlhbS5Vc2VyKHRoaXMsIFwiRGF0YVN5bmNVc2VyXCIpO1xuXG4gICAgICAgIGJ1Y2tldC5ncmFudFB1dChyb2xlKTtcbiAgICAgICAgYnVja2V0LmdyYW50UmVhZChyb2xlKTtcbiAgICB9XG59XG4iXX0=
