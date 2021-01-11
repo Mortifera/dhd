@@ -1,3 +1,5 @@
+lerna-debug.log
+cdk.out
 node_modules/
 .node_modules/
 built/*
