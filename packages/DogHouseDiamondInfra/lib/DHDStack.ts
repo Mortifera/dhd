@@ -2,6 +2,7 @@ import * as cdk from 'monocdk';
 import * as s3 from 'monocdk/aws-s3';
 import * as iam from 'monocdk/aws-iam';
 import * as ddb from 'monocdk/aws-dynamodb';
+import * as kms from 'monocdk/aws-kms';
 import { assert } from 'console';
 
 export class DHDStack extends cdk.Stack {
@@ -13,11 +14,17 @@ export class DHDStack extends cdk.Stack {
         });
 
         const passTable = new ddb.Table(this, "PassTable", {
-            encryption: ddb.TableEncryption.CUSTOMER_MANAGED,
+            encryption: ddb.TableEncryption.AWS_MANAGED,
             partitionKey: {
                 name: "service",
                 type: ddb.AttributeType.STRING
-            }
+            },
+            billingMode: ddb.BillingMode.PAY_PER_REQUEST
+        });
+
+        const passTableKmsKey = new kms.Key(this, "PassTableEncryptionKey", {
+            description: "To be used to encrypt/decrypt data in " + passTable.tableName + " ddb table",
+            enableKeyRotation: false
         });
 
         const user = new iam.User(this, "DataSyncUser");
@@ -28,18 +35,13 @@ export class DHDStack extends cdk.Stack {
         passTable.grantReadData(user);
         passTable.grantWriteData(user);
 
-        assert(passTable.encryptionKey);
-
-        passTable.encryptionKey?.grantEncryptDecrypt(user);
+        passTableKmsKey.grantEncryptDecrypt(user);
 
         new cdk.CfnOutput(this, "BucketName", {
             value: bucket.bucketName,
         });
         new cdk.CfnOutput(this, "TableName", {
             value: passTable.tableName,
-        });
-        new cdk.CfnOutput(this, "KMSArn", {
-            value: passTable.encryptionKey?.keyArn!,
         });
     }
 }

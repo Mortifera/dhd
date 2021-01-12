@@ -8,14 +8,6 @@ Object {
         "Ref": "DataSyncCE22D76D",
       },
     },
-    "KMSArn": Object {
-      "Value": Object {
-        "Fn::GetAtt": Array [
-          "PassTableKey40C4EE0A",
-          "Arn",
-        ],
-      },
-    },
     "TableName": Object {
       "Value": Object {
         "Ref": "PassTable33D248DE",
@@ -121,19 +113,6 @@ Object {
             },
             Object {
               "Action": Array [
-                "kms:Decrypt",
-                "kms:DescribeKey",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "PassTableKey40C4EE0A",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": Array [
                 "dynamodb:BatchWriteItem",
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
@@ -154,20 +133,6 @@ Object {
             },
             Object {
               "Action": Array [
-                "kms:Encrypt",
-                "kms:ReEncrypt*",
-                "kms:GenerateDataKey*",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "PassTableKey40C4EE0A",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": Array [
                 "kms:Decrypt",
                 "kms:Encrypt",
                 "kms:ReEncrypt*",
@@ -176,7 +141,7 @@ Object {
               "Effect": "Allow",
               "Resource": Object {
                 "Fn::GetAtt": Array [
-                  "PassTableKey40C4EE0A",
+                  "PassTableEncryptionKeyFA243D98",
                   "Arn",
                 ],
               },
@@ -210,24 +175,28 @@ Object {
           },
         ],
         "SSESpecification": Object {
-          "KMSMasterKeyId": Object {
-            "Fn::GetAtt": Array [
-              "PassTableKey40C4EE0A",
-              "Arn",
-            ],
-          },
           "SSEEnabled": true,
-          "SSEType": "KMS",
         },
       },
       "Type": "AWS::DynamoDB::Table",
       "UpdateReplacePolicy": "Retain",
     },
-    "PassTableKey40C4EE0A": Object {
+    "PassTableEncryptionKeyFA243D98": Object {
       "DeletionPolicy": "Retain",
       "Properties": Object {
-        "Description": "Customer-managed key auto-created for encrypting DynamoDB table at DogHouseDiamondStack/PassTable",
-        "EnableKeyRotation": true,
+        "Description": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "To be used to encrypt/decrypt data in ",
+              Object {
+                "Ref": "PassTable33D248DE",
+              },
+              " ddb table",
+            ],
+          ],
+        },
+        "EnableKeyRotation": false,
         "KeyPolicy": Object {
           "Statement": Array [
             Object {
@@ -264,39 +233,6 @@ Object {
                       },
                       ":root",
                     ],
-                  ],
-                },
-              },
-              "Resource": "*",
-            },
-            Object {
-              "Action": Array [
-                "kms:Decrypt",
-                "kms:DescribeKey",
-              ],
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::GetAtt": Array [
-                    "DataSyncUser213EE724",
-                    "Arn",
-                  ],
-                },
-              },
-              "Resource": "*",
-            },
-            Object {
-              "Action": Array [
-                "kms:Encrypt",
-                "kms:ReEncrypt*",
-                "kms:GenerateDataKey*",
-              ],
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::GetAtt": Array [
-                    "DataSyncUser213EE724",
-                    "Arn",
                   ],
                 },
               },
