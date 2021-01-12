@@ -202,16 +202,13 @@ Object {
             "AttributeType": "S",
           },
         ],
+        "BillingMode": "PAY_PER_REQUEST",
         "KeySchema": Array [
           Object {
             "AttributeName": "service",
             "KeyType": "HASH",
           },
         ],
-        "ProvisionedThroughput": Object {
-          "ReadCapacityUnits": 5,
-          "WriteCapacityUnits": 5,
-        },
         "SSESpecification": Object {
           "KMSMasterKeyId": Object {
             "Fn::GetAtt": Array [
