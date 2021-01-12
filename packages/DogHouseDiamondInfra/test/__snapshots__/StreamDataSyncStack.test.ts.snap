@@ -3,12 +3,22 @@
 exports[`Stack - DogHouseDiamondStack 1`] = `
 Object {
   "Outputs": Object {
-    "BucketArn": Object {
+    "BucketName": Object {
+      "Value": Object {
+        "Ref": "DataSyncCE22D76D",
+      },
+    },
+    "KMSArn": Object {
       "Value": Object {
         "Fn::GetAtt": Array [
-          "DataSyncCE22D76D",
+          "PassTableKey40C4EE0A",
           "Arn",
         ],
+      },
+    },
+    "TableName": Object {
+      "Value": Object {
+        "Ref": "PassTable33D248DE",
       },
     },
   },

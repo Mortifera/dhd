@@ -32,8 +32,14 @@ export class DHDStack extends cdk.Stack {
 
         passTable.encryptionKey?.grantEncryptDecrypt(user);
 
-        new cdk.CfnOutput(this, "BucketArn", {
-            value: bucket.bucketArn,
+        new cdk.CfnOutput(this, "BucketName", {
+            value: bucket.bucketName,
+        });
+        new cdk.CfnOutput(this, "TableName", {
+            value: passTable.tableName,
+        });
+        new cdk.CfnOutput(this, "KMSArn", {
+            value: passTable.encryptionKey?.keyArn!,
         });
     }
 }
