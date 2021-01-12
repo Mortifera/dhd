@@ -43,5 +43,8 @@ export class DHDStack extends cdk.Stack {
         new cdk.CfnOutput(this, "TableName", {
             value: passTable.tableName,
         });
+        new cdk.CfnOutput(this, "KMSKeyArn", {
+            value: passTableKmsKey.keyArn,
+        });
     }
 }

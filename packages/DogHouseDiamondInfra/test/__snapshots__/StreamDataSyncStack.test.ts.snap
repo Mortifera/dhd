@@ -8,6 +8,14 @@ Object {
         "Ref": "DataSyncCE22D76D",
       },
     },
+    "KMSKeyArn": Object {
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "PassTableEncryptionKeyFA243D98",
+          "Arn",
+        ],
+      },
+    },
     "TableName": Object {
       "Value": Object {
         "Ref": "PassTable33D248DE",
