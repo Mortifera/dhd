@@ -18,7 +18,8 @@ console.log(
 
 program
     .version('0.0.1', "-v, --version")
-    .description("DogHouseDiamond cli");
+    .description("DogHouseDiamond cli")
+    .addHelpCommand();
 
 const subCommand = new commander.Command('sync');
     subCommand
@@ -29,5 +30,7 @@ const subCommand = new commander.Command('sync');
         .action(sync)
         .addHelpCommand();
 program.addCommand(subCommand);
+
+// TODO password command
 
 program.parse(process.argv);
