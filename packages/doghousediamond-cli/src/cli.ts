@@ -8,6 +8,7 @@ import program from 'commander';
 import * as commander from 'commander';
 
 import { sync } from './sync';
+import { getPassData, listServices, putPassData } from './pass';
 
 clear();
 console.log(
@@ -31,6 +32,36 @@ const subCommand = new commander.Command('sync');
         .addHelpCommand();
 program.addCommand(subCommand);
 
-// TODO password command
+const subCommandPass = new commander.Command('pass');
 
+const subCommandPassList = new commander.Command('list');
+subCommandPassList.description("List services for which we already have passwords stored")
+    .action(listServices)
+    .addHelpCommand();
+
+const subCommandPassGet = new commander.Command('get');
+subCommandPassGet.description("Get user/pass")
+    .storeOptionsAsProperties(true)
+    .requiredOption("-s, --service <service-name>", "Name of the service for the user/pass you want to retrieve")
+    .action(getPassData)
+    .addHelpCommand();
+
+const subCommandPassSet = new commander.Command('set');
+subCommandPassSet.description("Sets service user/pass")
+        .storeOptionsAsProperties(true)
+        .requiredOption("-s, --service <service-name>", "Name of the service for the user/pass you want to set")
+        .requiredOption("-u, --user <user-name>", "Username/email of the service's login")
+        .requiredOption("-p, --password <password>", "Password of the service's login")
+        .action(putPassData)
+        .addHelpCommand();
+
+subCommandPass
+    .description("Password manager")
+        .addCommand(subCommandPassList)
+        .addCommand(subCommandPassGet)
+        .addCommand(subCommandPassSet)
+        .addHelpCommand();
+program.addCommand(subCommandPass);
+
+// TODO password command
 program.parse(process.argv);
