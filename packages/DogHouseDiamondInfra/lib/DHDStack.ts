@@ -10,7 +10,21 @@ export class DHDStack extends cdk.Stack {
         super(scope, id, props);
 
         const bucket = new s3.Bucket(this, "DataSync", {
-            encryption: s3.BucketEncryption.S3_MANAGED
+            encryption: s3.BucketEncryption.S3_MANAGED,
+            lifecycleRules: [
+                {
+                    transitions: [
+                        {
+                            storageClass: s3.StorageClass.INTELLIGENT_TIERING,
+                            transitionAfter: cdk.Duration.days(7)
+                        },
+                        {
+                            storageClass: s3.StorageClass.GLACIER,
+                            transitionAfter: cdk.Duration.days(90)
+                        }
+                    ]
+                }
+            ]
         });
 
         const passTable = new ddb.Table(this, "PassTable", {
@@ -24,7 +38,7 @@ export class DHDStack extends cdk.Stack {
 
         const passTableKmsKey = new kms.Key(this, "PassTableEncryptionKey", {
             description: "To be used to encrypt/decrypt data in " + passTable.tableName + " ddb table",
-            enableKeyRotation: false
+            enableKeyRotation: true
         });
 
         const user = new iam.User(this, "DataSyncUser");

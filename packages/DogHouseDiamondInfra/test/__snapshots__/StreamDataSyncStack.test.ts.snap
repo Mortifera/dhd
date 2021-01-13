@@ -32,6 +32,23 @@ Object {
             },
           ],
         },
+        "LifecycleConfiguration": Object {
+          "Rules": Array [
+            Object {
+              "Status": "Enabled",
+              "Transitions": Array [
+                Object {
+                  "StorageClass": "INTELLIGENT_TIERING",
+                  "TransitionInDays": 7,
+                },
+                Object {
+                  "StorageClass": "GLACIER",
+                  "TransitionInDays": 90,
+                },
+              ],
+            },
+          ],
+        },
       },
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Retain",
@@ -201,7 +218,7 @@ Object {
             ],
           ],
         },
-        "EnableKeyRotation": false,
+        "EnableKeyRotation": true,
         "KeyPolicy": Object {
           "Statement": Array [
             Object {
