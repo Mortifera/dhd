@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { exec, ExecException, execSync } from "child_process";
+import { execSync } from "child_process";
 
 const s3BucketName = "doghousediamondstack-datasyncce22d76d-15sp98shj7ihh";
 const fakeDirectoryName = "CloudServer";
@@ -24,21 +24,37 @@ export function sync(opts: SyncOpts) {
 
 function download() {
     console.log(chalk.blue("Downloading cloud server files"));
-    execSync(`aws s3 sync s3://${s3BucketName} .`, parseResponse);
+
+    var output: string = "";
+    var error: Error | undefined = undefined;
+
+    try {
+        execSync(`aws s3 sync s3://${s3BucketName} .`, { stdio: 'ignore' });
+    } catch (err) {
+        error = err;
+    } finally {
+        parseResponse(output, error);
+    }
 }
 
 function upload() {
     console.log(chalk.blue("Uploading cloud server files"));
-    execSync(`aws s3 sync --sse=AES256 . s3://${s3BucketName}`, parseResponse);
+
+    var output: string = "";
+    var error: Error | undefined = undefined;
+
+    try {
+        execSync(`aws s3 sync --sse=AES256 . s3://${s3BucketName}`, { stdio: 'ignore' });
+    } catch (err) {
+        error = err;
+    } finally {
+        parseResponse(output, error);
+    }
 }
 
-function parseResponse(error: ExecException | null, stdout: string, stderr: string) {
+function parseResponse(stdout: string, error?: Error) {
     if (error) {
         console.log(`Error: ${error.message}`);
-        return;
-    }
-    if (stderr) {
-        console.log(`Error: ${stderr}`);
         return;
     }
     console.log(`${cleanOutput(stdout)}`);
