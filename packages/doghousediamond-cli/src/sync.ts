@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { exec, ExecException } from "child_process";
+import { exec, ExecException, execSync } from "child_process";
 
 const s3BucketName = "doghousediamondstack-datasyncce22d76d-15sp98shj7ihh";
 const fakeDirectoryName = "CloudServer";
@@ -24,12 +24,12 @@ export function sync(opts: SyncOpts) {
 
 function download() {
     console.log(chalk.blue("Downloading cloud server files"));
-    exec(`aws s3 sync s3://${s3BucketName} .`, parseResponse);
+    execSync(`aws s3 sync s3://${s3BucketName} .`, parseResponse);
 }
 
 function upload() {
     console.log(chalk.blue("Uploading cloud server files"));
-    exec(`aws s3 sync --sse=AES256 . s3://${s3BucketName}`, parseResponse);
+    execSync(`aws s3 sync --sse=AES256 . s3://${s3BucketName}`, parseResponse);
 }
 
 function parseResponse(error: ExecException | null, stdout: string, stderr: string) {
