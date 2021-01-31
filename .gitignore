@@ -1,3 +1,4 @@
+.env
 dist
 lerna-debug.log
 cdk.out

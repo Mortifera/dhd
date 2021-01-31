@@ -1,4 +1,5 @@
 import * as AWS from 'aws-sdk';
+import { ConfigurationOptions } from 'aws-sdk';
 import chalk from 'chalk';
 import * as readline from 'readline-sync';
 import * as securePass from 'secure-random-password';
@@ -23,7 +24,11 @@ export interface NewPassData {
     user: string;
 }
 
-export async function listServices() {
+export async function configureAws(options: ConfigurationOptions) {
+    AWS.config.update(options);
+}
+
+export async function listServices(): Promise<string[]> {
     const ddbClient = new AWS.DynamoDB({ region });
 
     const tableResults = await ddbClient.scan({
@@ -32,8 +37,13 @@ export async function listServices() {
 
     if (!tableResults.Items || tableResults.Items.length<=0) {
         console.log("No services currently in use.");
+
+        return [];
     } else {
-        console.log("List of services in use: \n" + tableResults.Items.map(item => item.service.S!).join("\n") + "\n");
+        const serviceList = tableResults.Items.map(item => item.service.S!);
+        console.log("List of services in use: \n" + serviceList.join("\n") + "\n");
+
+        return serviceList;
     }
 }
 
@@ -49,6 +59,10 @@ export async function newPassword(newPassData: NewPassData) {
 }
 
 export async function putPassData(putPassData: PutPassData) {
+    putPassDataWithOverwrite(putPassData, false);
+}
+
+export async function putPassDataWithOverwrite(putPassData: PutPassData, overwrite: boolean) {
     const ddbClient = new AWS.DynamoDB({ region });
 
     const service = putPassData.service;
@@ -62,12 +76,12 @@ export async function putPassData(putPassData: PutPassData) {
         }
     }).promise()).Item !== undefined;
 
-    if (itemExists) {
+    if (itemExists && !overwrite) {
         console.log("User/Password already exists for this service");
 
-        const overwrite = readline.keyInYN("Do you want to overwrite?", { defaultInput: "N"});
+        const overwriteInput = readline.keyInYN("Do you want to overwrite?", { defaultInput: "N"});
     
-        if (!overwrite) {
+        if (!overwriteInput) {
             console.log("No action taken");
             return;
         }
@@ -103,7 +117,7 @@ interface GetPassDataOpts {
     service: string
 }
 
-export async function getPassData(getPassData: GetPassDataOpts) {
+export async function getPassData(getPassData: GetPassDataOpts): Promise<UserPass> {
     const ddbClient = new AWS.DynamoDB({ region });
 
     const {
@@ -131,6 +145,8 @@ export async function getPassData(getPassData: GetPassDataOpts) {
 
         console.log("User: " + userPass.user);
         console.log("Password: " + userPass.password);
+
+        return userPass;
     } catch (err) {
         console.log("Error occured", err);
     }

@@ -7,8 +7,8 @@ import figlet from 'figlet';
 import program from 'commander';
 import * as commander from 'commander';
 
-import { sync } from './sync';
-import { getPassData, listServices, newPassword, putPassData } from './pass';
+import { sync } from 'dhd-lib';
+import { getPassData, listServices, newPassword, putPassData } from 'dhd-lib';
 
 clear();
 console.log(
