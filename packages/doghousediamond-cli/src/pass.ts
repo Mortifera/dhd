@@ -1,8 +1,7 @@
 import * as AWS from 'aws-sdk';
 import chalk from 'chalk';
-import { R_OK } from 'constants';
-import { join } from 'path';
 import * as readline from 'readline-sync';
+import * as securePass from 'secure-random-password';
 
 const region = "eu-west-1";
 const tableName = "DogHouseDiamondStack-PassTable33D248DE-1SW1J989W1YEU";
@@ -19,6 +18,11 @@ interface UserPass {
     password: string;
 }
 
+export interface NewPassData {
+    service: string;
+    user: string;
+}
+
 export async function listServices() {
     const ddbClient = new AWS.DynamoDB({ region });
 
@@ -31,6 +35,17 @@ export async function listServices() {
     } else {
         console.log("List of services in use: \n" + tableResults.Items.map(item => item.service.S!).join("\n") + "\n");
     }
+}
+
+export async function newPassword(newPassData: NewPassData) {
+    const password = securePass.randomPassword({ characters: securePass.lower + securePass.upper + securePass.digits });
+
+    await putPassData({
+        ...newPassData,
+        password
+    });
+
+    console.log("Password:", password);
 }
 
 export async function putPassData(putPassData: PutPassData) {

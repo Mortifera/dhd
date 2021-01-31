@@ -8,7 +8,7 @@ import program from 'commander';
 import * as commander from 'commander';
 
 import { sync } from './sync';
-import { getPassData, listServices, putPassData } from './pass';
+import { getPassData, listServices, newPassword, putPassData } from './pass';
 
 clear();
 console.log(
@@ -39,6 +39,15 @@ subCommandPassList.description("List services for which we already have password
     .action(listServices)
     .addHelpCommand();
 
+const subCommandPassGenerate = new commander.Command('generate');
+subCommandPassGenerate.description("Generates new password for service user, and sets this service with this new password")
+    .aliases(["gen"])
+    .storeOptionsAsProperties(true)
+    .requiredOption("-s, --service <service-name>", "Name of the service for the user/pass you want to set")
+    .requiredOption("-u, --user <user-name>", "Username/email of the service's login")
+    .action(newPassword)
+    .addHelpCommand();
+
 const subCommandPassGet = new commander.Command('get');
 subCommandPassGet.description("Get user/pass")
     .storeOptionsAsProperties(true)
@@ -58,6 +67,7 @@ subCommandPassSet.description("Sets service user/pass")
 subCommandPass
     .description("Password manager")
         .addCommand(subCommandPassList)
+        .addCommand(subCommandPassGenerate)
         .addCommand(subCommandPassGet)
         .addCommand(subCommandPassSet)
         .addHelpCommand();
